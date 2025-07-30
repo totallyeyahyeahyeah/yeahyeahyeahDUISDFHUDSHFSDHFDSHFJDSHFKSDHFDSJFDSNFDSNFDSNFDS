@@ -394,7 +394,7 @@ vimri.BorderSizePixel = 0
 vimri.Position = UDim2.new(0.0222222228, 0, 0.666666687, 0)
 vimri.Size = UDim2.new(0, 209, 0, 16)
 vimri.Font = Enum.Font.SourceSans
-vimri.Text = "tp to Vimrinaxuy69"
+vimri.Text = "tp to naxuypasel69"
 vimri.TextColor3 = Color3.fromRGB(255, 255, 255)
 vimri.TextSize = 12.000
 
@@ -664,7 +664,7 @@ totally.MouseButton1Click:Connect(function()
 end)
 vimri.MouseButton1Click:Connect(function()
     pcall(function()
-        plr.Character.HumanoidRootPart.CFrame = game.Players.Vimrinaxuy69.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -5)
+        plr.Character.HumanoidRootPart.CFrame = game.Players.naxuypasel69.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, -5)
     end)
 end)
 mafiozi.MouseButton1Click:Connect(function()
