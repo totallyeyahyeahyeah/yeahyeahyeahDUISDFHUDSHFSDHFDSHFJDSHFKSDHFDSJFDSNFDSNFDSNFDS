@@ -211,7 +211,7 @@ title_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
 title_4.BorderSizePixel = 0
 title_4.Size = UDim2.new(0, 100, 0, 15)
 title_4.Font = Enum.Font.SourceSans
-title_4.Text = "Dex Explorer"
+title_4.Text = "AxeHub"
 title_4.TextColor3 = Color3.fromRGB(255, 255, 255)
 title_4.TextSize = 14.000
 
@@ -222,7 +222,7 @@ logo_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
 logo_4.BorderSizePixel = 0
 logo_4.Position = UDim2.new(0, 0, 0.234375, 0)
 logo_4.Size = UDim2.new(0, 100, 0, 49)
-logo_4.Image = "rbxassetid://6494810185"
+logo_4.Image = "rbxassetid://9913141725"
 logo_4.ScaleType = Enum.ScaleType.Crop
 
 rundex.Name = "rundex"
@@ -630,7 +630,7 @@ runsp.MouseButton1Click:Connect(function()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/as6cd0/SP_Hub/refs/heads/main/Brookhaven"))()
 end)
 rundex.MouseButton1Click:Connect(function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/peyton2465/Dex/master/out.lua"))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/zeroidxx/axe-hub/refs/heads/main/axehub%20nds.txt'))()
 end)
 setspd.MouseButton1Click:Connect(function()
     local hum = plr.Character:WaitForChild("Humanoid")
