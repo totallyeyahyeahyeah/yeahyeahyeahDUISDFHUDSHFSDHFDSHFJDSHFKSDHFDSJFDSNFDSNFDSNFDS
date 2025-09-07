@@ -252,7 +252,7 @@ title_5.BorderColor3 = Color3.fromRGB(0, 0, 0)
 title_5.BorderSizePixel = 0
 title_5.Size = UDim2.new(0, 449, 0, 20)
 title_5.Font = Enum.Font.Arial
-title_5.Text = " t.me/baicovsky_mafia69 "
+title_5.Text = "t.me/baicovsky_mafia69"
 title_5.TextColor3 = Color3.fromRGB(255, 255, 255)
 title_5.TextSize = 12.000
 
