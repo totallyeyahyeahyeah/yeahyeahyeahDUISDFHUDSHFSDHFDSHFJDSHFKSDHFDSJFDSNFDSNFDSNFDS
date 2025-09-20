@@ -689,7 +689,7 @@ close.MouseButton1Click:Connect(function()
     isuihidden = True
 end)
 local function onKeyPress(input)
-    if input.KeyCode == Enum.KeyCode.P then
+    if input.KeyCode == Enum.KeyCode.RightShift then
         if not isuihidden then
             main.Visible = false
             isuihidden = true
