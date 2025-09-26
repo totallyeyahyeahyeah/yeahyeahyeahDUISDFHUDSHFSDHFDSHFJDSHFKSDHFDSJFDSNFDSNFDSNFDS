@@ -280,7 +280,7 @@ esp.BorderSizePixel = 0
 esp.Position = UDim2.new(0.0222222228, 0, 0.390151501, 0)
 esp.Size = UDim2.new(0, 209, 0, 16)
 esp.Font = Enum.Font.SourceSans
-esp.Text = "Esp [WIP]"
+esp.Text = "Esp [bind: F4]"
 esp.TextColor3 = Color3.fromRGB(255, 255, 255)
 esp.TextSize = 12.000
 
@@ -702,5 +702,138 @@ local function onKeyPress(input)
 end
 
 UserInputService.InputBegan:Connect(onKeyPress)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Camera = workspace.CurrentCamera
+local LocalPlayer = Players.LocalPlayer
+
+local espObjects = {}
+local espEnabled = false
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.F4 then
+        espEnabled = not espEnabled
+        print("esp " .. (espEnabled and "on" or "off"))
+    end
+end)
+
+local function createESP(player)
+    if player == LocalPlayer then return end
+    
+    local box = Drawing.new("Square")
+    box.Color = Color3.new(1, 0, 0)
+    box.Thickness = 2
+    box.Transparency = 1
+    box.Filled = false
+    box.Visible = false
+    
+    local nameText = Drawing.new("Text")
+    nameText.Color = Color3.new(1, 1, 1)
+    nameText.Size = 20
+    nameText.Font = 2
+    nameText.Outline = true
+    nameText.Center = true
+    nameText.Visible = false
+    
+    local statsText = Drawing.new("Text")
+    statsText.Color = Color3.new(0.8, 0.8, 0.8)
+    statsText.Size = 16
+    statsText.Font = 2
+    statsText.Outline = true
+    statsText.Center = true
+    statsText.Visible = false
+    
+    espObjects[player] = {box = box, nameText = nameText, statsText = statsText}
+end
+
+local function removeESP(player)
+    if espObjects[player] then
+        local objects = espObjects[player]
+        objects.box:Remove()
+        objects.nameText:Remove()
+        objects.statsText:Remove()
+        espObjects[player] = nil
+    end
+end
+
+local function updateESP()
+    if not espEnabled then
+        for _, objects in pairs(espObjects) do
+            objects.box.Visible = false
+            objects.nameText.Visible = false
+            objects.statsText.Visible = false
+        end
+        return
+    end
+    
+    local localRoot = nil
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        localRoot = LocalPlayer.Character.HumanoidRootPart
+    end
+    
+    for player, objects in pairs(espObjects) do
+        local char = player.Character
+        if char and char:FindFirstChild("Head") and char:FindFirstChild("HumanoidRootPart") and char:FindFirstChild("Humanoid") then
+            local head = char.Head
+            local root = char.HumanoidRootPart
+            local humanoid = char.Humanoid
+            local headTopWorld = head.Position + Vector3.new(0, head.Size.Y / 2, 0)
+            local footBottomWorld = root.Position - Vector3.new(0, humanoid.HipHeight, 0)
+            
+            local headTopPos, headOnScreen = Camera:WorldToViewportPoint(headTopWorld)
+            local footPos = Camera:WorldToViewportPoint(footBottomWorld)
+            
+            if headOnScreen then
+                local height = math.abs(footPos.Y - headTopPos.Y)
+                local width = height * 0.6  
+                
+                objects.box.Position = Vector2.new(headTopPos.X - width / 2, headTopPos.Y)
+                objects.box.Size = Vector2.new(width, height)
+                objects.box.Visible = true
+
+                local speed = math.floor(root.Velocity.Magnitude)
+                local distance = 0
+                if localRoot then
+                    distance = math.floor((localRoot.Position - root.Position).Magnitude)
+                end
+                local hp = math.floor(humanoid.Health)
+                local maxHp = humanoid.MaxHealth
+
+                objects.nameText.Text = string.format("%s (%s)", player.Name, player.DisplayName)
+                objects.nameText.Position = Vector2.new(headTopPos.X, headTopPos.Y - 35)
+                objects.nameText.Visible = true
+                
+                objects.statsText.Text = string.format("Speed: %d | Dist: %d | HP: %d/%d", speed, distance, hp, maxHp)
+                objects.statsText.Position = Vector2.new(headTopPos.X, headTopPos.Y - 15)
+                objects.statsText.Visible = true
+            else
+                objects.box.Visible = false
+                objects.nameText.Visible = false
+                objects.statsText.Visible = false
+            end
+        else
+            objects.box.Visible = false
+            objects.nameText.Visible = false
+            objects.statsText.Visible = false
+        end
+    end
+end
+
+Players.PlayerAdded:Connect(createESP)
+Players.PlayerRemoving:Connect(removeESP)
+
+for _, player in pairs(Players:GetPlayers()) do
+    createESP(player)
+end
+
+RunService.RenderStepped:Connect(updateESP)
+
+esp.MouseButton1Click:Connect(function()
+    espEnabled = not espEnabled
+    print("esp " .. (espEnabled and "on" or "off"))
+end)
+print("esp loaded")
 
 notif("байцовске мафия 69", "welcome :3", 10)
